@@ -1,12 +1,28 @@
-# Databricks Agent Bricks Configuration
+# Databricks Agent Configuration
 
-## Agent name
+## Final Agent App
 
-`weather-intelligence-agent`
+App name:
 
-## Agent type
+`agent-mcp-weather-intelligence`
 
-Custom/tool-calling agent (use the Agent Bricks option available in the workspace that supports custom MCP tools).
+App URL:
+
+`https://agent-mcp-weather-intelligence-7405607999696356.16.azure.databricksapps.com`
+
+Status:
+
+**Running / Active**
+
+Final model:
+
+`Llama 4 Maverick`
+
+MLflow experiment:
+
+`55555632457603`
+
+The agent was exported from a tool-enabled Databricks AI Playground configuration into Databricks Apps and then validated again in the deployed Agent App.
 
 ## MCP server
 
@@ -16,32 +32,50 @@ App name:
 
 `mcp-weather-intelligence`
 
-MCP endpoint:
+App URL:
+
+`https://mcp-weather-intelligence-7405607999696356.16.azure.databricksapps.com`
+
+Canonical MCP endpoint:
 
 `https://mcp-weather-intelligence-7405607999696356.16.azure.databricksapps.com/mcp`
 
-The MCP server is verified as **Active** in Unity AI Gateway.
+The MCP server is verified as **Running / Active** and is attached to the final Agent App as an app resource.
 
 ## Enabled tools
 
 - `get_current_weather`
 - `get_forecast`
 - `get_travel_recommendation`
-- `compare_weather`
+- `compare_weather` (stretch)
 
 ## System prompt
 
-Use the full prompt in `SYSTEM_PROMPT.md`.
+The full system instructions are stored in `SYSTEM_PROMPT.md`.
+
+The prompt explicitly:
+
+- routes current questions to `get_current_weather`;
+- routes future questions to `get_forecast`;
+- routes travel/packing questions to `get_travel_recommendation`;
+- routes multi-city comparisons to `compare_weather`;
+- prohibits invented weather values;
+- instructs the agent to explain failures rather than guess;
+- labels recommendation/comfort logic as project heuristics rather than official safety guidance.
 
 ## Authentication
 
-The Open-Meteo weather API requires no API key, so no third-party secret is stored or committed. Access to the custom MCP server is governed by Databricks App/agent permissions.
+Open-Meteo requires no API key. No third-party secret is stored or committed.
 
-## Required final validation
+On-Behalf-Of (OBO) authentication was not required for this homework configuration; the deployed agent uses the Databricks App/service-principal resource permissions created for the MCP connection.
 
-Before submission, verify that the agent can use the MCP server and capture at least three screenshots showing:
+## Final validation
 
-1. Natural-language user prompt.
-2. MCP tool call.
-3. Tool result.
-4. Final grounded agent answer.
+Verified in the deployed Agent App:
+
+1. `What is the current weather in Chicago?` -> `get_current_weather`
+2. `What is the forecast for Austin, Texas for the next 3 days?` -> `get_forecast`
+3. `I am visiting Seattle tomorrow. Should I bring an umbrella and a jacket?` -> `get_travel_recommendation`
+4. `Compare today's weather in Miami, Denver, and San Diego and tell me which looks most comfortable.` -> `compare_weather`
+
+Screenshots are included in `../evidence/`.
