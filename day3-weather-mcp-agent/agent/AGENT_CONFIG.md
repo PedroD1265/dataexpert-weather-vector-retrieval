@@ -12,13 +12,15 @@ Custom/tool-calling agent (use the Agent Bricks option available in the workspac
 
 Custom MCP server hosted as a Databricks App.
 
-Planned app name:
+App name:
 
 `mcp-weather-intelligence`
 
-MCP endpoint after deployment:
+MCP endpoint:
 
-`https://<DATABRICKS-APP-URL>/mcp`
+`https://mcp-weather-intelligence-7405607999696356.16.azure.databricksapps.com/mcp`
+
+The MCP server is verified as **Active** in Unity AI Gateway.
 
 ## Enabled tools
 
@@ -37,7 +39,7 @@ The Open-Meteo weather API requires no API key, so no third-party secret is stor
 
 ## Required final validation
 
-Before submission, verify that Agent Bricks can discover all four MCP tools and capture at least three screenshots showing:
+Before submission, verify that the agent can use the MCP server and capture at least three screenshots showing:
 
 1. Natural-language user prompt.
 2. MCP tool call.
