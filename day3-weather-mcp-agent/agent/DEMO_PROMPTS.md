@@ -1,16 +1,21 @@
 # Agent Demo Prompts
 
-Capture screenshots showing the natural-language prompt, tool call(s), tool result, and final agent answer for at least these three cases.
+The following prompts were used for final validation. Screenshots in `../evidence/` show the natural-language prompt, MCP tool call, tool result, and grounded answer.
 
 ## Demo 1 — Current conditions
 
 **Prompt**
 
-> What is the weather in Chicago right now?
+> What is the current weather in Chicago?
 
 **Expected tool**
 
-`get_current_weather(location="Chicago, IL")`
+`get_current_weather(location="Chicago")`
+
+**Evidence**
+
+- `02_playground_current_weather.png`
+- `06_agent_current_weather.png`
 
 **What this proves**
 
@@ -20,15 +25,20 @@ Current-conditions capability and factual tool grounding.
 
 **Prompt**
 
-> Will it rain in Austin over the next 3 days?
+> What is the forecast for Austin, Texas for the next 3 days?
 
 **Expected tool**
 
-`get_forecast(location="Austin, TX", days=3)`
+`get_forecast(location="Austin, Texas", days=3)`
+
+**Evidence**
+
+- `03_playground_forecast.png`
+- `07_agent_forecast.png`
 
 **What this proves**
 
-Forecast capability and multi-day weather reasoning.
+Multi-day forecast capability and correct argument selection.
 
 ## Demo 3 — Recommendation / prediction
 
@@ -36,16 +46,20 @@ Forecast capability and multi-day weather reasoning.
 
 > I am visiting Seattle tomorrow. Should I bring an umbrella and a jacket?
 
-**Expected tool flow**
+**Expected tool**
 
-1. `get_forecast(location="Seattle, WA", days=2)` when the agent needs forecast context.
-2. `get_travel_recommendation(location="Seattle, WA", date="tomorrow")`.
+`get_travel_recommendation(location="Seattle", date="tomorrow")`
+
+**Evidence**
+
+- `04_playground_recommendation.png`
+- `08_agent_recommendation.png`
 
 **What this proves**
 
-The required derived judgment tool uses explicit thresholds rather than echoing raw API values.
+The required derived-judgment capability applies explicit weather thresholds rather than simply echoing raw API data.
 
-## Optional stretch demo — Compare cities
+## Stretch demo — Compare cities
 
 **Prompt**
 
@@ -53,4 +67,13 @@ The required derived judgment tool uses explicit thresholds rather than echoing 
 
 **Expected tool**
 
-`compare_weather(locations=["Miami, FL", "Denver, CO", "San Diego, CA"])`
+`compare_weather(locations=["Miami", "Denver", "San Diego"])`
+
+**Evidence**
+
+- `05_playground_compare_weather.png`
+- `09_agent_compare_weather.png`
+
+**What this proves**
+
+The MCP server exposes an additional derived comparison tool beyond the three minimum required capabilities.
