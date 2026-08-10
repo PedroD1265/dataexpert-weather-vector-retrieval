@@ -1,0 +1,3 @@
+version: 1
+name: "Weather Intelligence Vector Search"
+description: "DataExpert Day 2 weather ingestion, embeddings, and Lakebase semantic retrieval app."
