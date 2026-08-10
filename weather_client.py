@@ -52,7 +52,7 @@ class WeatherClient:
         self.session.headers.update({
             "User-Agent": os.environ.get(
                 "NWS_USER_AGENT",
-                "DataExpertWeatherVectorHomework/1.0 (pedjv98@hotmail.com)",
+                "DataExpertWeatherVectorHomework/1.0 (github.com/PedroD1265/dataexpert-weather-vector-retrieval)",
             ),
             "Accept": "application/geo+json, application/json",
         })
