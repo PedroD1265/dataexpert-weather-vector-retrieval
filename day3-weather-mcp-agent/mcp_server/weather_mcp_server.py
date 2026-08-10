@@ -7,8 +7,8 @@ recommendation logic live in weather_adapter.py.
 from __future__ import annotations
 
 import logging
-import os
 
+from fastapi import FastAPI
 from fastmcp import FastMCP
 
 import weather_adapter
@@ -24,7 +24,10 @@ def _error(exc: Exception) -> dict:
     return {
         "status": "error",
         "error": str(exc),
-        "instruction": "Ask the user to clarify the location/date or try again later. Do not guess weather values.",
+        "instruction": (
+            "Ask the user to clarify the location/date or try again later. "
+            "Do not guess weather values."
+        ),
     }
 
 
@@ -106,8 +109,33 @@ def compare_weather(locations: list[str]) -> dict:
         return _error(exc)
 
 
-if __name__ == "__main__":
-    # Databricks Apps route external traffic to the app port. FastMCP's HTTP
-    # transport exposes the MCP endpoint at /mcp.
-    port = int(os.getenv("DATABRICKS_APP_PORT", os.getenv("PORT", "8000")))
-    mcp.run(transport="http", host="0.0.0.0", port=port)
+# Databricks' current MCP app template uses stateless Streamable HTTP. This
+# avoids relying on mcp-session-id across follow-up requests and works cleanly
+# behind Databricks Apps routing/load balancing.
+mcp_app = mcp.http_app(stateless_http=True)
+
+# Serve the MCP routes with the FastMCP lifespan so its session manager and
+# protocol machinery are initialized correctly. A lightweight root endpoint is
+# also useful as a human-readable health check; the MCP endpoint remains /mcp.
+app = FastAPI(
+    title="Weather Intelligence MCP Server",
+    description="Day 3 weather-prediction MCP server for the DataExpert AI Data Engineer bootcamp.",
+    version="1.0.0",
+    routes=[*mcp_app.routes],
+    lifespan=mcp_app.lifespan,
+)
+
+
+@app.get("/", include_in_schema=False)
+async def root() -> dict:
+    return {
+        "status": "healthy",
+        "service": "weather-intelligence-mcp",
+        "mcp_endpoint": "/mcp",
+        "tools": [
+            "get_current_weather",
+            "get_forecast",
+            "get_travel_recommendation",
+            "compare_weather",
+        ],
+    }
