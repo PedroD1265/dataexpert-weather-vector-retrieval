@@ -16,17 +16,19 @@ Submission project folder:
 
 ## Databricks MCP App
 
-Planned app name:
+App name:
 
 `mcp-weather-intelligence`
 
-App URL after deployment:
+App URL:
 
-`TO_BE_ADDED_AFTER_DEPLOYMENT`
+`https://mcp-weather-intelligence-7405607999696356.16.azure.databricksapps.com`
 
 MCP endpoint:
 
-`TO_BE_ADDED_AFTER_DEPLOYMENT/mcp`
+`https://mcp-weather-intelligence-7405607999696356.16.azure.databricksapps.com/mcp`
+
+Status verified in Databricks Apps / Unity AI Gateway: **Active**.
 
 ## Databricks Agent
 
@@ -48,7 +50,7 @@ Enabled tools:
 ## Evidence required before final ZIP
 
 - MCP Databricks App running successfully.
-- MCP tool discovery showing the weather tools.
+- MCP server visible and Active in Unity AI Gateway.
 - Agent configuration/system prompt.
 - Demo 1: current weather question + tool call + final answer.
 - Demo 2: multi-day forecast question + tool call + final answer.
