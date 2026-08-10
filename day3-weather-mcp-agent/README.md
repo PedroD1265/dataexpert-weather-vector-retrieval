@@ -4,6 +4,13 @@ DataExpert.io **Rise of the AI Data Engineer — Day 3 Homework**.
 
 This project implements a custom FastMCP weather server backed by the free Open-Meteo API and a Databricks Agent Bricks agent that uses the MCP tools to answer grounded weather questions and make simple recommendations.
 
+## Deployed MCP App
+
+- Databricks App: `mcp-weather-intelligence`
+- App URL: `https://mcp-weather-intelligence-7405607999696356.16.azure.databricksapps.com`
+- MCP endpoint: `https://mcp-weather-intelligence-7405607999696356.16.azure.databricksapps.com/mcp`
+- Verified status: **Active** in Databricks Apps and Unity AI Gateway.
+
 ## Architecture
 
 ```text
@@ -101,15 +108,15 @@ Deploy it from the `day3-weather-mcp-agent/mcp_server/` folder. The app runs:
 python weather_mcp_server.py
 ```
 
-FastMCP uses HTTP transport and exposes the MCP endpoint at:
+FastMCP uses streamable HTTP transport and exposes the MCP endpoint at:
 
 ```text
-https://<YOUR-DATABRICKS-APP-URL>/mcp
+https://mcp-weather-intelligence-7405607999696356.16.azure.databricksapps.com/mcp
 ```
 
 ## Register/connect the MCP server to the agent
 
-In the Databricks workspace, connect the deployed custom MCP App to the Agent Bricks agent using the MCP tooling available in the workspace. Confirm that Databricks discovers these tools:
+The deployed custom MCP App is visible as **Active** in Unity AI Gateway. Use it from AI Playground / Agent Bricks and confirm tool calls for:
 
 - `get_current_weather`
 - `get_forecast`
