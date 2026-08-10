@@ -10,6 +10,7 @@ import logging
 
 from fastapi import FastAPI
 from fastmcp import FastMCP
+from starlette.routing import Mount
 
 import weather_adapter
 
@@ -114,14 +115,18 @@ def compare_weather(locations: list[str]) -> dict:
 # behind Databricks Apps routing/load balancing.
 mcp_app = mcp.http_app(stateless_http=True)
 
-# Serve the MCP routes with the FastMCP lifespan so its session manager and
-# protocol machinery are initialized correctly. A lightweight root endpoint is
-# also useful as a human-readable health check; the MCP endpoint remains /mcp.
+# Serve the canonical MCP endpoint at /mcp. Some AI Playground builds currently
+# append /mcp to the Databricks App MCP endpoint a second time, resulting in
+# requests to /mcp/mcp. Mounting the same stateless MCP app under /mcp provides
+# a compatibility alias while preserving the official /mcp endpoint.
 app = FastAPI(
     title="Weather Intelligence MCP Server",
     description="Day 3 weather-prediction MCP server for the DataExpert AI Data Engineer bootcamp.",
     version="1.0.0",
-    routes=[*mcp_app.routes],
+    routes=[
+        *mcp_app.routes,
+        Mount("/mcp", app=mcp_app),
+    ],
     lifespan=mcp_app.lifespan,
 )
 
@@ -132,6 +137,7 @@ async def root() -> dict:
         "status": "healthy",
         "service": "weather-intelligence-mcp",
         "mcp_endpoint": "/mcp",
+        "playground_compatibility_endpoint": "/mcp/mcp",
         "tools": [
             "get_current_weather",
             "get_forecast",
